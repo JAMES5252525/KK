@@ -1,0 +1,133 @@
+﻿<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+          body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";}
+
+          #chartdiv {
+          width: 100%;
+          height:550px;}
+  </style>
+
+</head>
+
+<body>
+  <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+  <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+  <div id="chartdiv"></div> 
+  <script>
+      /**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
+
+var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+networkSeries.dataFields.linkWith = "linkWith";
+networkSeries.dataFields.name = "name";
+networkSeries.dataFields.id = "name";
+networkSeries.dataFields.value = "value";
+networkSeries.dataFields.children = "children";
+
+networkSeries.nodes.template.label.text = "{name}"
+networkSeries.fontSize = 8;
+networkSeries.linkWithStrength = 0;
+
+var nodeTemplate = networkSeries.nodes.template;
+nodeTemplate.tooltipText = "{name}";
+nodeTemplate.fillOpacity = 1;
+nodeTemplate.label.hideOversized = true;
+nodeTemplate.label.truncate = true;
+
+var linkTemplate = networkSeries.links.template;
+linkTemplate.strokeWidth = 1;
+var linkHoverState = linkTemplate.states.create("hover");
+linkHoverState.properties.strokeOpacity = 1;
+linkHoverState.properties.strokeWidth = 2;
+
+nodeTemplate.events.on("over", function (event) {
+    var dataItem = event.target.dataItem;
+    dataItem.childLinks.each(function (link) {
+        link.isHover = true;
+    })
+})
+
+nodeTemplate.events.on("out", function (event) {
+    var dataItem = event.target.dataItem;
+    dataItem.childLinks.each(function (link) {
+        link.isHover = false;
+    })
+})
+
+networkSeries.data = [  
+   {  
+      "name":"東京奧運臺灣選手介紹",
+      "value":350,
+      "linkWith":[],
+      "children":[{"name":"追跡者Chaser團隊","value":70}]
+   },
+   {  
+      "name":"射擊選手",
+      "value":200,
+      "linkWith":["東京奧運臺灣選手介紹"],
+      "children":[{"name":"田家榛","value":150},
+                  {"name":"吳佳穎","value":100},
+                  {"name":"呂紹全","value":70},
+                  {"name":"林穎欣","value":70},
+                  {"name":"楊昆弼","value":70}]
+   },{  
+      "name":"田徑選手",
+      "value":200,
+      "linkWith":["東京奧運臺灣選手介紹"],
+      "children":[{"name":"鄭兆村","value":100},
+                  {"name":"黃士峰","value":150},]
+   },
+   {  
+      "name":"舉重選手",
+      "value":200,
+      "linkWith":["東京奧運臺灣選手介紹"],
+      "children":[{"name":"郭婞淳","value":150},
+                  {"name":"陳玟卉","value":120},
+                  {"name":"方菀靈","value":100},
+                  {"name":"江念欣","value":70},
+                  {"name":"謝昀庭","value":100}]
+   },
+   {  
+      "name":"桌球選手",
+      "value":200,
+      "linkWith":["東京奧運臺灣選手介紹"],
+      "children":[{"name":"莊智淵","value":150},
+                  {"name":"鄭怡靜","value":100},
+                  {"name":"陳思羽","value":100},
+                  {"name":"林昀儒","value":70}]
+
+   },
+   {  
+      "name":"游泳選手",
+      "value":200,
+      "linkWith":["東京奧運臺灣選手介紹"],
+      "children":[{"name":"王星皓","value":150},
+                  {"name":"王冠閎", "value":100}]
+   },
+];
+
+  </script>
+
+</body>
+
+<html>
